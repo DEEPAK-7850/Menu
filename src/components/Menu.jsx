@@ -340,7 +340,7 @@ const filteredMenu = useMemo(() => {
                 // Added relative z-10
                 // Inactive state is bg-transparent
                 // Active state REMOVES bg-white, uses text color
-                className={`relative z-10 flex items-center justify-center gap-1 py-1 w-26  rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "All"
+                className={`relative z-10 flex items-center justify-center py-2 w-26  rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "All"
                     ? "text-blue-600 border-blue-400 bg-blue-200" // Active: No bg needed (slider provides), border transparent
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
                   }`}
@@ -353,7 +353,7 @@ const filteredMenu = useMemo(() => {
               <button
                 // Added relative z-10
                 // Inactive state is bg-transparent
-                className={`relative z-10 flex items-center justify-center py-1 gap-1 w-26 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${ // Added justify-center
+                className={`relative z-10 flex items-center justify-center py-2 w-26 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${ // Added justify-center
                   activeFilter === "Veg"
                     ? "text-green-600 border-green-400 bg-green-100 shadow-md" // Active: Green text, green border, shadow. NO bg-white.
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
@@ -367,7 +367,7 @@ const filteredMenu = useMemo(() => {
               <button
                 // Added relative z-10
                 // Inactive state is bg-transparent
-                className={`relative z-10 flex items-center justify-center py-1 gap-1 w-26 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "Non-Veg"
+                className={`relative z-10 flex items-center justify-center py-2 w-26 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "Non-Veg"
                     ? "text-red-600 border-red-400 bg-red-100" // Active: No bg needed, border transparent
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
                   }`}
