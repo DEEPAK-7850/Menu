@@ -269,14 +269,14 @@ const filteredMenu = useMemo(() => {
         {/* Use onSubmit to handle search action */}
         <form onSubmit={handleSearchScroll} className="flex max-w-2xl w-full mx-auto">
           {/* Main Search Input Container */}
-          <div className="relative flex-grow flex items-center border border-gray-300 dark:border-gray-700 rounded-l-full focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all duration-200 ease-in-out shadow-sm">
+          <div className="relative flex-grow flex items-center border-2 border-gray-300 dark:border-gray-300 rounded-l-full focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all duration-200 ease-in-out shadow-sm">
             <input
               ref={inputRef} // Make sure: const inputRef = useRef(null); exists in your component
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for a dish..."
-              className="flex-grow py-2 pl-4 pr-4 text-lg rounded-l-full w-[60%] focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+              className="flex-grow py-2 pl-4 pr-4 text-lg rounded-l-full w-[60%] focus:outline-none bg-white  text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
               aria-label="Search"
             />
             {/* Clear button (visible when there's text) */}
@@ -284,7 +284,7 @@ const filteredMenu = useMemo(() => {
               <button
                 type="button" // Prevents form submission
                 onClick={() => { setSearchQuery(""); inputRef.current?.focus(); }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-gray-500 hover:bg-gray-200 focus:outline-none"
                 aria-label="Clear search"
               >
                 {/* Ensure XIcon component is defined/imported */}
@@ -296,7 +296,7 @@ const filteredMenu = useMemo(() => {
           {/* Search Button (Triggers scroll via form onSubmit) */}
           <button
             type="submit" // Submits the form
-            className="flex items-center justify-center w-16 px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-l-0 border-gray-300 dark:border-gray-700 rounded-r-full text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-200 ease-in-out"
+            className="flex items-center justify-center w-16 px-4 py-2 border border-2 border-gray-300 rounded-r-full text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-200 ease-in-out"
             aria-label="Perform search and scroll to menu"
             // Removed onClick={handleSearchScroll} - onSubmit handles it
           >
@@ -324,11 +324,11 @@ const filteredMenu = useMemo(() => {
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container (Needs 'relative') --- */}
-            <div className="relative flex items-center gap-3 p-1 rounded-full shadow-inner w-full h-[3rem] mx-auto">
+            <div className="relative flex items-center gap-3 p-1 shadowrounded-full w-full  mx-auto">
 
               {/* --- Sliding Background Element --- */}
               <div
-                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-20 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out transform
+                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-26 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out transform
   ${activeFilter === 'Veg' ? 'translate-x-[calc(100%+12px)]' : // Position for Veg (w-28 + gap-3 approx 12px)
                     activeFilter === 'Non-Veg' ? 'translate-x-[calc(200%+24px)]' : // Position for Non-Veg (2*w-28 + 2*gap)
                       'translate-x-0' // Position for All
@@ -340,7 +340,7 @@ const filteredMenu = useMemo(() => {
                 // Added relative z-10
                 // Inactive state is bg-transparent
                 // Active state REMOVES bg-white, uses text color
-                className={`relative z-10 flex items-center justify-center gap-1 w-20 px-2 py-2 rounded-full text-lg font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "All"
+                className={`relative z-10 flex items-center justify-center gap-1 w-26 px-2 py-2 rounded-full text-lg font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "All"
                     ? "text-blue-600 border-blue-400 bg-blue-200" // Active: No bg needed (slider provides), border transparent
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
                   }`}
@@ -353,7 +353,7 @@ const filteredMenu = useMemo(() => {
               <button
                 // Added relative z-10
                 // Inactive state is bg-transparent
-                className={`relative z-10 flex items-center justify-center gap-1 w-20 px-2 py-2 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${ // Added justify-center
+                className={`relative z-10 flex items-center justify-center gap-1 w-26 px-2 py-3 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${ // Added justify-center
                   activeFilter === "Veg"
                     ? "text-green-600 border-green-400 bg-green-100 shadow-md" // Active: Green text, green border, shadow. NO bg-white.
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
@@ -367,7 +367,7 @@ const filteredMenu = useMemo(() => {
               <button
                 // Added relative z-10
                 // Inactive state is bg-transparent
-                className={`relative z-10 flex items-center justify-center gap-1 w-20 px-2 py-2 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "Non-Veg"
+                className={`relative z-10 flex items-center justify-center gap-1 w-26 px-2 py-3 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "Non-Veg"
                     ? "text-red-600 border-red-400 bg-red-100" // Active: No bg needed, border transparent
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
                   }`}
