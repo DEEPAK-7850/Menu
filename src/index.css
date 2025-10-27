@@ -47,7 +47,7 @@ body {
   min-height: 100vh;
   width: 100%;       /* ✅ full width fix */
   height: 100%; 
-  background-color: white ;     /* full height */
+  background-color: white;     /* full height */
 }
 
 #root {

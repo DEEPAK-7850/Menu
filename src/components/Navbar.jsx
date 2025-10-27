@@ -39,7 +39,7 @@ function Navbar() {
               alt="Your Company Logo"
               className={`
               w-auto transition-all duration-400 ease-in-out
-              ${isTop ? "h-60" : "h-3"}  {/* Adjust h-24 and h-10 as needed */}
+              ${isTop ? "h-50" : "h-3"}  {/* Adjust h-24 and h-10 as needed */}
             `}
             />
           </a>
@@ -49,7 +49,7 @@ function Navbar() {
               alt="Your Company Logo"
               className={`
               w-auto transition-all duration-400 ease-in-out
-              ${isTop ? "h-60" : "h-3"}  {/* Adjust h-24 and h-10 as needed */}
+              ${isTop ? "h-50" : "h-3"}  {/* Adjust h-24 and h-10 as needed */}
             `}
             />
           </a>
@@ -96,7 +96,7 @@ function Navbar() {
         )}
       </header>
       <div className="h-[10rem] flex items-center justify-center w-full ">
-        <a href="/" className="transition-all text-black duration-400 text-[8rem] ease-in-out hover:opacity-80 z-10 flex items-center justify-center">
+        <a href="/" className="transition-all text-black duration-400 text-[5rem] ease-in-out hover:opacity-80 z-10 flex items-center justify-center">
           MENU
         </a>
       </div>
