@@ -2,8 +2,7 @@ import React, { useState, useMemo, useRef, useEffect, useCallback } from "react"
 import { menuData, categories } from "../data/menuData"; // Ensure menuData.js uses the final categories
 import { motion, AnimatePresence } from "framer-motion";
 import { VegIcon, NonVegIcon } from "../data/Icons"; // Ensure Icons.jsx exists
-import { Link as ScrollLink } from "react-scroll";
-import { scroller } from "react-scroll";
+import { Link as ScrollLink, scroller } from "react-scroll";
 
 
 // --- Import icon URLs ---
@@ -30,6 +29,24 @@ import {
   DessertsIconURL,
 } from "../data/svgs"; // Make sure index.js exports PNG URLs
 
+// --- Search Icon ---
+const SearchIcon = () => (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+        <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+    </svg>
+);
+// --- Microphone Icon ---
+const MicrophoneIcon = () => (
+    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+       <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0A7.001 7.001 0 009 14.93V17h4v-2.07zm-2 2.07l-2 2a1 1 0 001.414 1.414L10 16.414l.586.586a1 1 0 001.414-1.414l-2-2z" clipRule="evenodd" />
+    </svg>
+);
+// --- Clear (X) Icon ---
+const XIcon = () => (
+    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+    </svg>
+);
 // --- Helper Arrow Icons ---
 const ArrowLeftIcon = () => (
   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,6 +113,7 @@ function Menu() {
   const [activeFilter, setActiveFilter] = useState("All"); // Start with 'All' active 
   const [searchQuery, setSearchQuery] = useState("");
   const scrollContainerRef = useRef(null);
+  const inputRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [showArrows, setShowArrows] = useState(window.innerWidth >= 840);
@@ -193,37 +211,47 @@ function Menu() {
     }
   };
 
-  const handleSearchScroll = () => {
+  const handleSearchScroll = (e) => { // Accept the event object 'e'
+    e.preventDefault(); // <-- Add this to prevent page reload
+
     // Calculate the necessary offset dynamically
     const navbarHeight = 64; // Adjust if your navbar height changes (h-16)
     const stickyElementHeight = stickyContainerRef.current?.offsetHeight || 0;
     const totalOffset = -(navbarHeight + stickyElementHeight + 20); // Add a small buffer (20px)
 
-    scroller.scrollTo('menu-content-area', { // Target the ID of the menu content div
-      duration: 800, // Speed of the scroll (milliseconds)
-      delay: 0,      // Delay before starting scroll
-      smooth: 'easeInOutQuart', // Type of easing for the scroll animation
-      offset: totalOffset       // How far above the target element to stop scrolling
+    scroller.scrollTo('menu-content-area', {
+        duration: 800,
+        delay: 0,
+        smooth: 'easeInOutQuart',
+        offset: totalOffset
     });
-  };
+};
 
-  const filteredMenu = useMemo(() => {
-    let menu = menuData;
+const filteredMenu = useMemo(() => {
+  let menu = menuData; // Start with all data
 
-    // Apply filter ONLY if 'Veg' or 'Non-Veg' is active
-    if (activeFilter === 'Veg') {
-      menu = menu.filter(item => item.type === 'Veg');
-    } else if (activeFilter === 'Non-Veg') {
-      menu = menu.filter(item => item.type === 'Non-Veg');
-    }
-    // If activeFilter is 'All', we don't need to filter by type here.
+  // 1. Apply Type filter (All/Veg/Non-Veg) based on 'activeFilter' state
+  if (activeFilter === 'Veg') {
+    menu = menu.filter(item => item.type === 'Veg');
+  } else if (activeFilter === 'Non-Veg') {
+    menu = menu.filter(item => item.type === 'Non-Veg');
+  }
+  // If 'All', menu remains unfiltered by type
 
-    // Apply search filter (always runs after type filter)
-    if (searchQuery.trim() !== "") {
-      // ... search logic ...
-    }
-    return menu;
-  }, [activeFilter, searchQuery]); // Depends on the single activeFilter state now
+  // --- THIS IS THE SEARCH LOGIC ---
+  // 2. Apply Search filter if searchQuery is not empty
+  if (searchQuery.trim() !== "") { // Check if search box has non-whitespace text
+    const lowerCaseQuery = searchQuery.toLowerCase(); // Convert search term to lowercase for case-insensitive matching
+    // Filter the *current* list ('menu')
+    menu = menu.filter((item) =>
+      // Convert item name to lowercase and check if it includes the search term
+      item.name.toLowerCase().includes(lowerCaseQuery)
+    );
+  }
+  // --- END OF SEARCH LOGIC ---
+
+  return menu; // Return the final filtered list
+}, [activeFilter, searchQuery]); // Re-run this logic if filter or search query changes // Depends on the single activeFilter state now
 
   // --- Styles ---
   const baseCategoryStyle =
@@ -236,17 +264,48 @@ function Menu() {
   return (
     <div className="container mx-auto p-4 sm:p-8 mt-1">
 
-      {/* Search Bar */}
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="mb-8 px-4 flex">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for a dish..."
-          className="w-[70%] p-2 rounded-lg border-4 border-gray-400 text-lg text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button className=" ml-2 w-[30%] p-2 rounded-lg border-4 border-gray-400 text-lg text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={handleSearchScroll}>Search</button>
+     {/* ===== YouTube Style Search Bar ===== */}
+     <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="mb-8 px-4">
+        {/* Use onSubmit to handle search action */}
+        <form onSubmit={handleSearchScroll} className="flex max-w-2xl w-full mx-auto">
+          {/* Main Search Input Container */}
+          <div className="relative flex-grow flex items-center border border-gray-300 dark:border-gray-700 rounded-l-full focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all duration-200 ease-in-out shadow-sm">
+            <input
+              ref={inputRef} // Make sure: const inputRef = useRef(null); exists in your component
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search for a dish..."
+              className="flex-grow py-2 pl-6 pr-10 text-lg rounded-l-full focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+              aria-label="Search"
+            />
+            {/* Clear button (visible when there's text) */}
+            {searchQuery && (
+              <button
+                type="button" // Prevents form submission
+                onClick={() => { setSearchQuery(""); inputRef.current?.focus(); }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
+                aria-label="Clear search"
+              >
+                {/* Ensure XIcon component is defined/imported */}
+                <XIcon />
+              </button>
+            )}
+          </div>
+
+          {/* Search Button (Triggers scroll via form onSubmit) */}
+          <button
+            type="submit" // Submits the form
+            className="flex items-center justify-center w-16 px-4 py-2 bg-gray-200 dark:bg-gray-700 border border-l-0 border-gray-300 dark:border-gray-700 rounded-r-full text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-200 ease-in-out"
+            aria-label="Perform search and scroll to menu"
+            // Removed onClick={handleSearchScroll} - onSubmit handles it
+          >
+            {/* Ensure SearchIcon component is defined/imported */}
+            <SearchIcon />
+          </button>
+        </form>
       </motion.div>
+      {/* ===== END Search Bar ===== */}
 
       {/* ===== PARENT Sticky Container for Both Bars ===== */}
       {/* Added ref={stickyContainerRef} */}
@@ -264,84 +323,57 @@ function Menu() {
           >
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container --- */}
-            <div className="flex items-center gap-3 bg-gray-100 p-1 rounded-full shadow-inner">
+            {/* --- Button Group Container (Needs 'relative') --- */}
+            <div className="relative flex items-center gap-3 bg-gray-200 p-1 rounded-full shadow-inner w-fit mx-auto">
+
+              {/* --- Sliding Background Element --- */}
+              <div
+                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-34 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out transform
+  ${activeFilter === 'Veg' ? 'translate-x-[calc(100%+12px)]' : // Position for Veg (w-28 + gap-3 approx 12px)
+                    activeFilter === 'Non-Veg' ? 'translate-x-[calc(200%+24px)]' : // Position for Non-Veg (2*w-28 + 2*gap)
+                      'translate-x-0' // Position for All
+                  }`}
+              /> {/* Note: Slider div is self-closing or empty */}
 
               {/* --- ALL Button --- */}
               <button
-                // Ensure relative and overflow-hidden are present
-                className={`relative overflow-hidden px-5 py-2 rounded-full text-sm font-semibold border transition-colors duration-300 ${activeFilter === "All" // Use activeFilter state
-                    ? "bg-white text-blue-600 border-blue-300 shadow-md"
-                    : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
+                // Added relative z-10
+                // Inactive state is bg-transparent
+                // Active state REMOVES bg-white, uses text color
+                className={`relative z-10 flex items-center justify-center gap-1 w-34 px-5 py-5 rounded-full text-lg font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "All"
+                    ? "text-blue-600 border-blue-400 bg-blue-200" // Active: No bg needed (slider provides), border transparent
+                    : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
                   }`}
-                // Use correct handler
                 onClick={() => handleFilterClick("All")}
               >
-                {/* Text needs relative positioning context for z-index */}
-                <span className="relative z-10">All</span>
-                {/* Sliding Background Span (Optional) */}
-                {/* <span className={`
-    absolute bottom-0 left-0 h-full w-full rounded-full bg-blue-100 -z-0
-    transition-transform duration-300 ease-out transform
-    ${activeFilter === "All" ? 'translate-y-0' : 'translate-y-full'} // Use activeFilter
-  `}></span> */}
-                {/* Underline Span */}
-                <span className={`
-    absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-blue-600 rounded-full
-    transition-all duration-300 ease-out
-    ${activeFilter === "All" ? 'w-3/4' : 'w-0'} // Use activeFilter
-  `}></span>
+                All {/* Button text content */}
               </button>
 
               {/* --- VEG Button --- */}
               <button
-                // Ensure relative and overflow-hidden are present
-                className={`relative overflow-hidden flex items-center gap-1 px-5 py-2 rounded-full text-sm font-semibold border transition-colors duration-300 ${activeFilter === "Veg" // Use activeFilter state
-                    ? "bg-white text-green-600 border-green-300 shadow-md"
-                    : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
-                  }`}
-                // Use correct handler
+                // Added relative z-10
+                // Inactive state is bg-transparent
+                className={`relative z-10 flex items-center justify-center gap-1 w-34 px-5 py-6 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${ // Added justify-center
+                  activeFilter === "Veg"
+                    ? "text-green-600 border-green-400 bg-green-100 shadow-md" // Active: Green text, green border, shadow. NO bg-white.
+                    : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
+                }`}
                 onClick={() => handleFilterClick("Veg")}
               >
-                {/* Text/Icon need relative positioning context for z-index */}
-                <span className="relative z-10 flex items-center gap-1"><VegIcon size={18} /> Veg</span>
-                {/* Sliding Background Span (Optional) */}
-                {/* <span className={`
-    absolute bottom-0 left-0 h-full w-full rounded-full bg-green-100 -z-0
-    transition-transform duration-300 ease-out transform
-    ${activeFilter === "Veg" ? 'translate-y-0' : 'translate-y-full'} // Use activeFilter
-  `}></span> */}
-                {/* Underline Span */}
-                <span className={`
-    absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-green-600 rounded-full
-    transition-all duration-300 ease-out
-    ${activeFilter === "Veg" ? 'w-3/4' : 'w-0'} // Use activeFilter
-  `}></span>
+                <VegIcon size={18} /> Veg
               </button>
 
               {/* --- NON-VEG Button --- */}
               <button
-                // Ensure relative and overflow-hidden are present
-                className={`relative overflow-hidden flex items-center gap-1 px-5 py-2 rounded-full text-sm font-semibold border transition-colors duration-300 ${activeFilter === "Non-Veg" // Use activeFilter state
-                    ? "bg-white text-red-600 border-red-300 shadow-md"
-                    : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
+                // Added relative z-10
+                // Inactive state is bg-transparent
+                className={`relative z-10 flex items-center justify-center gap-1 w-34 px-2 py-6 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "Non-Veg"
+                    ? "text-red-600 border-red-400 bg-red-100" // Active: No bg needed, border transparent
+                    : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
                   }`}
-                // Use correct handler
                 onClick={() => handleFilterClick("Non-Veg")}
               >
-                {/* Text/Icon need relative positioning context for z-index */}
-                <span className="relative z-10 flex items-center gap-1"><NonVegIcon size={18} /> Non-Veg</span>
-                {/* Sliding Background Span (Optional) */}
-                {/* <span className={`
-    absolute bottom-0 left-0 h-full w-full rounded-full bg-red-100 -z-0
-    transition-transform duration-300 ease-out transform
-    ${activeFilter === "Non-Veg" ? 'translate-y-0' : 'translate-y-full'} // Use activeFilter
-  `}></span> */}
-                {/* Underline Span */}
-                <span className={`
-    absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-red-600 rounded-full
-    transition-all duration-300 ease-out
-    ${activeFilter === "Non-Veg" ? 'w-3/4' : 'w-0'} // Use activeFilter
-  `}></span>
+                <NonVegIcon size={18} /> Non-Veg
               </button>
             </div>
           </motion.div>

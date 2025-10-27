@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import logo from '../assets/logo.png';
+import logo2 from '../assets/logo2.png'
 import menu from '../assets/menu.png';
 import { div } from "framer-motion/client";
 
@@ -10,15 +11,6 @@ function Navbar() {
   const [isTop, setIsTop] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsTop(window.scrollY === 0);
-    };
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div>
     <header
@@ -27,9 +19,8 @@ function Navbar() {
         transition-colors duration-400 ease-in-out font-bebas 
         ${
           isTop
-            ? "bg-stone-200"
-            // Add a subtle shadow even when transparent for structure if needed
-            // : "bg-stone-600 shadow-lg shadow-stone-800/60"
+            ? ""
+           
             : "bg-stone-300 shadow-lg shadow-stone-800/60"
         }
       `}
@@ -37,9 +28,9 @@ function Navbar() {
       {/* 1. Container: Justify center when top, between when scrolled */}
       <div
         className={`
-          container mx-auto px-4 md:px-[6rem] py-5 flex items-center 
+          container mx-auto px-4 md:px-[6rem] py-5 flex items-center gap-14 
           transition-all duration-400 ease-in-out font-bebas
-          ${isTop ? "justify-center h-[10rem]" : "justify-center h-[6rem]"} 
+          ${isTop ? "justify-center h-[15rem]" : "justify-center h-[6rem]"} 
         `}
       >
         {/* 2. Logo: Change size and margin based on isTop */}
@@ -49,7 +40,17 @@ function Navbar() {
             alt="Your Company Logo"
             className={`
               w-auto transition-all duration-400 ease-in-out
-              ${isTop ? "h-38" : "h-3"}  {/* Adjust h-24 and h-10 as needed */}
+              ${isTop ? "h-60" : "h-3"}  {/* Adjust h-24 and h-10 as needed */}
+            `}
+          />
+        </a>
+        <a href="/" className="transition-all duration-400 ease-in-out hover:opacity-80 z-10">
+          <img
+            src={logo2}
+            alt="Your Company Logo"
+            className={`
+              w-auto transition-all duration-400 ease-in-out
+              ${isTop ? "h-60" : "h-3"}  {/* Adjust h-24 and h-10 as needed */}
             `}
           />
         </a>
