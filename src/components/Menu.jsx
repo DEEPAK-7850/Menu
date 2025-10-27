@@ -81,34 +81,29 @@ const CategoryIcon = ({ iconURL, altText, isActive }) => (
 
 // --- iconMap updated to use CategoryIcon ---
 const iconMap = {
-  Beverages: (isActive) => <CategoryIcon iconURL={BeveragesIconURL} altText="Beverages" isActive={isActive} />,
-  Breakfast: (isActive) => <CategoryIcon iconURL={BreakfastIconURL} altText="Breakfast" isActive={isActive} />,
-  Eggs: (isActive) => <CategoryIcon iconURL={EggsIconURL} altText="Eggs" isActive={isActive} />,
-  "Salad / Papad": (isActive) => <CategoryIcon iconURL={SaladPapadIconURL} altText="Salad / Papad" isActive={isActive} />,
-  "Soup(veg)": (isActive) => <CategoryIcon iconURL={SoupVegIconURL} altText="Soup(veg)" isActive={isActive} />,
-  "Soup(nonveg)": (isActive) => <CategoryIcon iconURL={SoupNonVegIconURL} altText="Soup(nonveg)" isActive={isActive} />,
-  "Indian starters(Veg)": (isActive) => <CategoryIcon iconURL={IndianStartersVegIconURL} altText="Indian starters(Veg)" isActive={isActive} />,
-  "Indian Starters(nonveg)": (isActive) => <CategoryIcon iconURL={IndianStartersNonVegIconURL} altText="Indian Starters(nonveg)" isActive={isActive} />,
-  "Starters(Veg)": (isActive) => <CategoryIcon iconURL={StartersVegIconURL} altText="Starters(Veg)" isActive={isActive} />,
-  "Starters(nonveg)": (isActive) => <CategoryIcon iconURL={StartersNonVegIconURL} altText="Starters(nonveg)" isActive={isActive} />,
-  "Indian Main Course(Veg)": (isActive) => <CategoryIcon iconURL={IndianMainCourseVegIconURL} altText="Indian Main Course(Veg)" isActive={isActive} />,
-  "Indian Main Course(nonveg)": (isActive) => <CategoryIcon iconURL={IndianMainCourseNonVegIconURL} altText="Indian Main Course(nonveg)" isActive={isActive} />,
-  "Chef’s special Main course(veg)": (isActive) => <CategoryIcon iconURL={ChefsSpecialMainCourseVegIconURL} altText="Chef’s special(veg)" isActive={isActive} />,
-  "Chef’s special Main course(Nonveg)": (isActive) => <CategoryIcon iconURL={ChefsSpecialMainCourseNonVegIconURL} altText="Chef’s special(Nonveg)" isActive={isActive} />,
-  "Rajasthani Main Course": (isActive) => <CategoryIcon iconURL={RajasthaniMainCourseIconURL} altText="Rajasthani Main Course" isActive={isActive} />,
-  Raita: (isActive) => <CategoryIcon iconURL={RaitaIconURL} altText="Raita" isActive={isActive} />,
-  "Indian Breads": (isActive) => <CategoryIcon iconURL={IndianBreadsIconURL} altText="Indian Breads" isActive={isActive} />,
-  "Rice(veg)": (isActive) => <CategoryIcon iconURL={RiceVegIconURL} altText="Rice(veg)" isActive={isActive} />,
-  "Rice(nonveg)": (isActive) => <CategoryIcon iconURL={RiceNonVegIconURL} altText="Rice(nonveg)" isActive={isActive} />,
-  Desserts: (isActive) => <CategoryIcon iconURL={DessertsIconURL} altText="Desserts" isActive={isActive} />,
+  'Beverages': (isActive) => <CategoryIcon iconURL={BeveragesIconURL} altText="Beverages" isActive={isActive} />,
+  'Breakfast': (isActive) => <CategoryIcon iconURL={BreakfastIconURL} altText="Breakfast" isActive={isActive} />,
+  'Eggs': (isActive) => <CategoryIcon iconURL={EggsIconURL} altText="Eggs" isActive={isActive} />,
+  'Salad / Papad': (isActive) => <CategoryIcon iconURL={SaladPapadIconURL} altText="Salad / Papad" isActive={isActive} />,
+  'Soup (Veg)': (isActive) => <CategoryIcon iconURL={SoupVegIconURL} altText="Soup (Veg)" isActive={isActive} />, // Added space
+  'Soup (Non-Veg)': (isActive) => <CategoryIcon iconURL={SoupNonVegIconURL} altText="Soup (Non-Veg)" isActive={isActive} />, // Added space, capitalized Non-Veg
+  'Indian Starters (Veg)': (isActive) => <CategoryIcon iconURL={IndianStartersVegIconURL} altText="Indian Starters (Veg)" isActive={isActive} />, // Added space, capitalized Starters
+  'Indian Starters (Non-Veg)': (isActive) => <CategoryIcon iconURL={IndianStartersNonVegIconURL} altText="Indian Starters (Non-Veg)" isActive={isActive} />, // Added space, capitalized Non-Veg
+  'Starters (Veg)': (isActive) => <CategoryIcon iconURL={StartersVegIconURL} altText="Starters (Veg)" isActive={isActive} />, // Added space
+  'Starters (Non-Veg)': (isActive) => <CategoryIcon iconURL={StartersNonVegIconURL} altText="Starters (Non-Veg)" isActive={isActive} />, // Added space, capitalized Non-Veg
+  'Indian Main Course (Veg)': (isActive) => <CategoryIcon iconURL={IndianMainCourseVegIconURL} altText="Indian Main Course (Veg)" isActive={isActive} />, // Added space
+  'Indian Main Course (Non-Veg)': (isActive) => <CategoryIcon iconURL={IndianMainCourseNonVegIconURL} altText="Indian Main Course (Non-Veg)" isActive={isActive} />, // Added space, capitalized Non-Veg
+  "Chef's Special Main Course (Veg)": (isActive) => <CategoryIcon iconURL={ChefsSpecialMainCourseVegIconURL} altText="Chef's Special Main Course (Veg)" isActive={isActive} />, // Corrected apostrophe, spacing, capitalization, full altText
+  "Chef's Special Main Course (Non-Veg)": (isActive) => <CategoryIcon iconURL={ChefsSpecialMainCourseNonVegIconURL} altText="Chef's Special Main Course (Non-Veg)" isActive={isActive} />, // Corrected apostrophe, spacing, capitalization, full altText
+  'Rajasthani Main Course': (isActive) => <CategoryIcon iconURL={RajasthaniMainCourseIconURL} altText="Rajasthani Main Course" isActive={isActive} />,
+  'Raita': (isActive) => <CategoryIcon iconURL={RaitaIconURL} altText="Raita" isActive={isActive} />,
+  'Indian Breads': (isActive) => <CategoryIcon iconURL={IndianBreadsIconURL} altText="Indian Breads" isActive={isActive} />,
+  'Rice (Veg)': (isActive) => <CategoryIcon iconURL={RiceVegIconURL} altText="Rice (Veg)" isActive={isActive} />, // Added space
+  'Rice (Non-Veg)': (isActive) => <CategoryIcon iconURL={RiceNonVegIconURL} altText="Rice (Non-Veg)" isActive={isActive} />, // Added space, capitalized Non-Veg
+  'Desserts': (isActive) => <CategoryIcon iconURL={DessertsIconURL} altText="Desserts" isActive={isActive} />,
 };
 
 function Menu() {
-  const [filters, setFilters] = useState({
-    all: true,
-    veg: true,
-    nonVeg: true,
-  });
   // Use a single state for the active filter: 'All', 'Veg', or 'Non-Veg'
   const [activeFilter, setActiveFilter] = useState("All"); // Start with 'All' active 
   const [searchQuery, setSearchQuery] = useState("");
@@ -190,12 +185,6 @@ function Menu() {
     scrollContainerRef.current?.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
-  const toggleFilter = (type) => {
-    setFilters((prev) => ({
-      ...prev, // Keep the previous state of other buttons
-      [type]: !prev[type] // Flip the state of the clicked button ('all', 'veg', or 'nonVeg')
-    }));
-  };
 
   const handleSetActive = (to) => {
     const categoryName = to.replace('category-', '');
@@ -251,14 +240,14 @@ const filteredMenu = useMemo(() => {
   // --- END OF SEARCH LOGIC ---
 
   return menu; // Return the final filtered list
-}, [activeFilter, searchQuery]); // Re-run this logic if filter or search query changes // Depends on the single activeFilter state now
+}, [activeFilter, searchQuery]); // Re-run this logic if filter or search query changes
 
-  // --- Styles ---
-  const baseCategoryStyle =
-    "h-[7.4rem] px-2 py-2 border-2 rounded-lg text-sm font-medium transition-all cursor-pointer relative box-border";
-  // Only contains general active styles now, border/glow handled by CategoryIcon
-  const activeCategoryStyle = "shadow-xl category-active";
-  const inactiveCategoryStyle = "bg-white text-gray-700 hover:bg-gray-100 border-2 border-transparent";
+// --- Styles ---
+const baseCategoryStyle =
+  "h-[7.4rem] px-2 py-2 border-2 rounded-lg text-sm font-medium transition-all cursor-pointer relative box-border";
+// Only contains general active styles now, border/glow handled by CategoryIcon
+const activeCategoryStyle = "shadow-xl category-active";
+const inactiveCategoryStyle = "bg-white text-gray-700 hover:bg-gray-100 border-2 border-transparent";
 
 
   return (
@@ -324,11 +313,11 @@ const filteredMenu = useMemo(() => {
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container (Needs 'relative') --- */}
-            <div className="relative flex items-center justify-center gap-3 p-1 shadowrounded-full w-full  mx-auto">
+            <div className="relative flex items-center justify-center gap-3 p-1 shadow-inner rounded-full w-full mx-auto">
 
               {/* --- Sliding Background Element --- */}
               <div
-                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-22 rounded-full bg-white shadow-md transition-transform duration-300 ease-out transform
+                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-22 rounded-full bg-white shadow-md transition-transform duration-300 transform
   ${activeFilter === 'Veg' ? 'translate-x-[calc(100%+12px)]' : // Position for Veg (w-28 + gap-3 approx 12px)
                     activeFilter === 'Non-Veg' ? 'translate-x-[calc(200%+24px)]' : // Position for Non-Veg (2*w-28 + 2*gap)
                       'translate-x-0' // Position for All
