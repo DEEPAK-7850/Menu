@@ -29,7 +29,7 @@ function Navbar() {
           className={`
           container mx-auto px-4 md:px-[6rem] py-5 flex items-center gap-14 
           transition-all duration-400 ease-in-out font-bebas
-          ${isTop ? "justify-center h-[15rem]" : "justify-center h-[6rem]"} 
+          ${isTop ? "justify-center h-[10rem]" : "justify-center h-[6rem]"} 
         `}
         >
           {/* 2. Logo: Change size and margin based on isTop */}
