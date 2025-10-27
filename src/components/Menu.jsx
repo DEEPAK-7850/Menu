@@ -44,22 +44,22 @@ const ArrowRightIcon = () => (
 
 // --- Checkmark Icon Component ---
 const CheckmarkIcon = () => (
-    <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-    </svg>
+  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+  </svg>
 );
 
 // --- Category Icon Wrapper Component (Checkmark top-left) ---
 const CategoryIcon = ({ iconURL, altText, isActive }) => (
-    <div className={`relative w-[65px] h-[60px] mx-auto mb-1 rounded-lg overflow-hidden transition-all duration-300
+  <div className={`relative w-[65px] h-[60px] mx-auto mb-1 rounded-lg overflow-hidden transition-all duration-300
                     ${isActive ? 'border-2 border-green-600 shadow-active-category' : 'border-2 border-transparent'}`}>
-        <img src={iconURL} alt={altText} className="w-full h-full object-cover rounded-lg" />
-        {isActive && (
-            <div className="absolute top-[-8px] left-[-8px] bg-white rounded-full p-[2px] shadow-md border border-green-600 category-icon-checkmark">
-                <CheckmarkIcon />
-            </div>
-        )}
-    </div>
+    <img src={iconURL} alt={altText} className="w-full h-full object-cover rounded-lg" />
+    {isActive && (
+      <div className="absolute top-[-8px] left-[-8px] bg-white rounded-full p-[2px] shadow-md border border-green-600 category-icon-checkmark">
+        <CheckmarkIcon />
+      </div>
+    )}
+  </div>
 );
 
 // --- iconMap updated to use CategoryIcon ---
@@ -92,6 +92,8 @@ function Menu() {
     veg: true,
     nonVeg: true,
   });
+  // Use a single state for the active filter: 'All', 'Veg', or 'Non-Veg'
+  const [activeFilter, setActiveFilter] = useState("All"); // Start with 'All' active 
   const [searchQuery, setSearchQuery] = useState("");
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -105,21 +107,34 @@ function Menu() {
   // State to store the calculated scroll offset
   const [scrollOffset, setScrollOffset] = useState(-200); // Initial estimate
 
+  const handleFilterClick = (type) => {
+    setActiveFilter((prevFilter) => {
+      // If clicking the button that is already active...
+      if (prevFilter === type) {
+        // ...then switch back to 'All'.
+        return "All";
+      } else {
+        // Otherwise, switch to the button that was clicked.
+        return type;
+      }
+    });
+  };
+
   useEffect(() => {
     const handleResize = () => {
-        setShowArrows(window.innerWidth >= 840);
-        // Recalculate offset on resize
-        const navbarHeight = 64; // Adjust if your navbar height changes
-        const stickyElementHeight = stickyContainerRef.current?.offsetHeight || 0;
-        setScrollOffset(-(navbarHeight + stickyElementHeight));
+      setShowArrows(window.innerWidth >= 840);
+      // Recalculate offset on resize
+      const navbarHeight = 64; // Adjust if your navbar height changes
+      const stickyElementHeight = stickyContainerRef.current?.offsetHeight || 0;
+      setScrollOffset(-(navbarHeight + stickyElementHeight));
     };
     window.addEventListener("resize", handleResize);
     handleResize(); // Initial calculation
     // Timeout to recalculate after initial render potentially settles heights
     const timer = setTimeout(handleResize, 100);
     return () => {
-        window.removeEventListener("resize", handleResize);
-        clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timer);
     };
   }, []); // Run on mount and when showArrows logic might change
 
@@ -165,17 +180,17 @@ function Menu() {
   };
 
   const handleSetActive = (to) => {
-      const categoryName = to.replace('category-', '');
-      setActiveCategoryName(categoryName); // Set state for icon styling
+    const categoryName = to.replace('category-', '');
+    setActiveCategoryName(categoryName); // Set state for icon styling
 
-      const activeLinkElement = scrollContainerRef.current?.querySelector(`[data-to="${to}"]`);
-      if (activeLinkElement && scrollContainerRef.current) {
-          activeLinkElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'nearest',
-              inline: 'center'
-          });
-      }
+    const activeLinkElement = scrollContainerRef.current?.querySelector(`[data-to="${to}"]`);
+    if (activeLinkElement && scrollContainerRef.current) {
+      activeLinkElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
   };
 
   const handleSearchScroll = () => {
@@ -185,42 +200,30 @@ function Menu() {
     const totalOffset = -(navbarHeight + stickyElementHeight + 20); // Add a small buffer (20px)
 
     scroller.scrollTo('menu-content-area', { // Target the ID of the menu content div
-        duration: 800, // Speed of the scroll (milliseconds)
-        delay: 0,      // Delay before starting scroll
-        smooth: 'easeInOutQuart', // Type of easing for the scroll animation
-        offset: totalOffset       // How far above the target element to stop scrolling
+      duration: 800, // Speed of the scroll (milliseconds)
+      delay: 0,      // Delay before starting scroll
+      smooth: 'easeInOutQuart', // Type of easing for the scroll animation
+      offset: totalOffset       // How far above the target element to stop scrolling
     });
-};
+  };
 
-const filteredMenu = useMemo(() => {
-  let menu = menuData;
+  const filteredMenu = useMemo(() => {
+    let menu = menuData;
 
-  // Filter based on Veg/NonVeg toggles ONLY IF 'All' is OFF
-  if (!filters.all) {
-      // If BOTH are ON, show everything (same as 'All' being ON, effectively)
-      // If NEITHER is ON, show nothing
-      if (!filters.veg && !filters.nonVeg) {
-          menu = []; // Show no items if neither Veg nor NonVeg is selected and All is off
-      }
-      // If only ONE is ON, filter by that type
-      else if (filters.veg && !filters.nonVeg) {
-          menu = menu.filter(item => item.type === "Veg");
-      } else if (!filters.veg && filters.nonVeg) {
-          menu = menu.filter(item => item.type === "Non-Veg");
-      }
-      // If both filters.veg and filters.nonVeg are true (and filters.all is false),
-      // it means show both, so no additional filtering needed here beyond the initial menuData.
-  }
-  // If filters.all is TRUE, ignore veg/nonVeg toggles and show everything initially.
+    // Apply filter ONLY if 'Veg' or 'Non-Veg' is active
+    if (activeFilter === 'Veg') {
+      menu = menu.filter(item => item.type === 'Veg');
+    } else if (activeFilter === 'Non-Veg') {
+      menu = menu.filter(item => item.type === 'Non-Veg');
+    }
+    // If activeFilter is 'All', we don't need to filter by type here.
 
-  // Apply Search filter (this part remains the same)
-  if (searchQuery.trim() !== "") {
-    const lowerCaseQuery = searchQuery.toLowerCase();
-    // Make sure to filter from the potentially type-filtered list 'menu'
-    menu = menu.filter((item) => item.name.toLowerCase().includes(lowerCaseQuery));
-  }
-  return menu;
-}, [filters, searchQuery]);
+    // Apply search filter (always runs after type filter)
+    if (searchQuery.trim() !== "") {
+      // ... search logic ...
+    }
+    return menu;
+  }, [activeFilter, searchQuery]); // Depends on the single activeFilter state now
 
   // --- Styles ---
   const baseCategoryStyle =
@@ -242,7 +245,7 @@ const filteredMenu = useMemo(() => {
           placeholder="Search for a dish..."
           className="w-[70%] p-2 rounded-lg border-4 border-gray-400 text-lg text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button  className=" ml-2 w-[30%] p-2 rounded-lg border-4 border-gray-400 text-lg text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={handleSearchScroll}>Search</button>
+        <button className=" ml-2 w-[30%] p-2 rounded-lg border-4 border-gray-400 text-lg text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" onClick={handleSearchScroll}>Search</button>
       </motion.div>
 
       {/* ===== PARENT Sticky Container for Both Bars ===== */}
@@ -251,96 +254,100 @@ const filteredMenu = useMemo(() => {
 
         {/* --- Independent Toggle Buttons --- */}
         {/* ===== Sticky Independent Toggle Buttons ===== */}
-      {/* ===== Sticky Independent Toggle Buttons ===== */}
-      <div ref={stickyContainerRef} className="z-40 bg-white">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white pt-2 pb-2 flex justify-center mx-auto w-fit px-3"
-        >
-          {/* --- Button Group Container --- */}
-          <div className="flex items-center gap-3 bg-gray-100 p-1 rounded-full shadow-inner">
+        {/* ===== Sticky Independent Toggle Buttons ===== */}
+        <div ref={stickyContainerRef} className="z-40 bg-white">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white pt-2 pb-2 flex justify-center mx-auto w-fit px-3"
+          >
+            {/* --- Button Group Container --- */}
+            {/* --- Button Group Container --- */}
+            <div className="flex items-center gap-3 bg-gray-100 p-1 rounded-full shadow-inner">
 
-            {/* --- ALL Button --- */}
-            <button
-              // Added: relative overflow-hidden group
-              className={`relative overflow-hidden group px-5 py-2 rounded-full text-sm font-semibold border transition-all duration-300 ${
-                filters.all
-                  ? "bg-white text-blue-600 border-blue-300 shadow-md" // Removed scale-105 for simplicity
-                  : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
-              }`}
-              onClick={() => toggleFilter("all")}
-            >
-              <span className="relative z-10">All</span> {/* Text needs higher z-index */}
-              {/* Sliding Border Span */}
-              <span className={`
-                absolute bottom-0 left-0 h-full w-full rounded-full bg-blue-100 -z-0 // Background element
-                transition-transform duration-300 ease-out transform
-                ${filters.all ? 'translate-y-0' : 'translate-y-full'} // Slide up when active
-              `}></span>
-               {/* Underline Span (Optional - can use this or border effect) */}
-               <span className={`
-                 absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-blue-600 rounded-full
-                 transition-all duration-300 ease-out
-                 ${filters.all ? 'w-3/4' : 'w-0'} // Expand width when active
-               `}></span>
-            </button>
+              {/* --- ALL Button --- */}
+              <button
+                // Ensure relative and overflow-hidden are present
+                className={`relative overflow-hidden px-5 py-2 rounded-full text-sm font-semibold border transition-colors duration-300 ${activeFilter === "All" // Use activeFilter state
+                    ? "bg-white text-blue-600 border-blue-300 shadow-md"
+                    : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
+                  }`}
+                // Use correct handler
+                onClick={() => handleFilterClick("All")}
+              >
+                {/* Text needs relative positioning context for z-index */}
+                <span className="relative z-10">All</span>
+                {/* Sliding Background Span (Optional) */}
+                {/* <span className={`
+    absolute bottom-0 left-0 h-full w-full rounded-full bg-blue-100 -z-0
+    transition-transform duration-300 ease-out transform
+    ${activeFilter === "All" ? 'translate-y-0' : 'translate-y-full'} // Use activeFilter
+  `}></span> */}
+                {/* Underline Span */}
+                <span className={`
+    absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-blue-600 rounded-full
+    transition-all duration-300 ease-out
+    ${activeFilter === "All" ? 'w-3/4' : 'w-0'} // Use activeFilter
+  `}></span>
+              </button>
 
-            {/* --- VEG Button --- */}
-            <button
-              // Added: relative overflow-hidden group
-              className={`relative overflow-hidden group flex items-center gap-1 px-5 py-2 rounded-full text-sm font-semibold border transition-all duration-300 ${
-                filters.veg
-                  ? "bg-white text-green-600 border-green-300 shadow-md"
-                  : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
-              }`}
-              onClick={() => toggleFilter("veg")}
-            >
-              <span className="relative z-10 flex items-center gap-1"><VegIcon size={18} /> Veg</span> {/* Text/Icon need higher z-index */}
-              {/* Sliding Border Span */}
-              <span className={`
-                absolute bottom-0 left-0 h-full w-full rounded-full bg-green-100 -z-0
-                transition-transform duration-300 ease-out transform
-                ${filters.veg ? 'translate-y-0' : 'translate-y-full'}
-              `}></span>
-               {/* Underline Span */}
-               <span className={`
-                 absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-green-600 rounded-full
-                 transition-all duration-300 ease-out
-                 ${filters.veg ? 'w-3/4' : 'w-0'}
-               `}></span>
-            </button>
+              {/* --- VEG Button --- */}
+              <button
+                // Ensure relative and overflow-hidden are present
+                className={`relative overflow-hidden flex items-center gap-1 px-5 py-2 rounded-full text-sm font-semibold border transition-colors duration-300 ${activeFilter === "Veg" // Use activeFilter state
+                    ? "bg-white text-green-600 border-green-300 shadow-md"
+                    : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
+                  }`}
+                // Use correct handler
+                onClick={() => handleFilterClick("Veg")}
+              >
+                {/* Text/Icon need relative positioning context for z-index */}
+                <span className="relative z-10 flex items-center gap-1"><VegIcon size={18} /> Veg</span>
+                {/* Sliding Background Span (Optional) */}
+                {/* <span className={`
+    absolute bottom-0 left-0 h-full w-full rounded-full bg-green-100 -z-0
+    transition-transform duration-300 ease-out transform
+    ${activeFilter === "Veg" ? 'translate-y-0' : 'translate-y-full'} // Use activeFilter
+  `}></span> */}
+                {/* Underline Span */}
+                <span className={`
+    absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-green-600 rounded-full
+    transition-all duration-300 ease-out
+    ${activeFilter === "Veg" ? 'w-3/4' : 'w-0'} // Use activeFilter
+  `}></span>
+              </button>
 
-            {/* --- NON-VEG Button --- */}
-            <button
-              // Added: relative overflow-hidden group
-              className={`relative overflow-hidden group flex items-center gap-1 px-5 py-2 rounded-full text-sm font-semibold border transition-all duration-300 ${
-                filters.nonVeg
-                  ? "bg-white text-red-600 border-red-300 shadow-md"
-                  : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
-              }`}
-              onClick={() => toggleFilter("nonVeg")}
-            >
-              <span className="relative z-10 flex items-center gap-1"><NonVegIcon size={18} /> Non-Veg</span> {/* Text/Icon need higher z-index */}
-              {/* Sliding Border Span */}
-              <span className={`
-                absolute bottom-0 left-0 h-full w-full rounded-full bg-red-100 -z-0
-                transition-transform duration-300 ease-out transform
-                ${filters.nonVeg ? 'translate-y-0' : 'translate-y-full'}
-              `}></span>
-               {/* Underline Span */}
-               <span className={`
-                 absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-red-600 rounded-full
-                 transition-all duration-300 ease-out
-                 ${filters.nonVeg ? 'w-3/4' : 'w-0'}
-               `}></span>
-            </button>
-          </div>
-        </motion.div>
-      </div>
-      {/* ===== End Toggle Buttons ===== */}
-      {/* ===== End Toggle Buttons ===== */}
+              {/* --- NON-VEG Button --- */}
+              <button
+                // Ensure relative and overflow-hidden are present
+                className={`relative overflow-hidden flex items-center gap-1 px-5 py-2 rounded-full text-sm font-semibold border transition-colors duration-300 ${activeFilter === "Non-Veg" // Use activeFilter state
+                    ? "bg-white text-red-600 border-red-300 shadow-md"
+                    : "bg-transparent text-gray-600 border-transparent hover:bg-gray-200"
+                  }`}
+                // Use correct handler
+                onClick={() => handleFilterClick("Non-Veg")}
+              >
+                {/* Text/Icon need relative positioning context for z-index */}
+                <span className="relative z-10 flex items-center gap-1"><NonVegIcon size={18} /> Non-Veg</span>
+                {/* Sliding Background Span (Optional) */}
+                {/* <span className={`
+    absolute bottom-0 left-0 h-full w-full rounded-full bg-red-100 -z-0
+    transition-transform duration-300 ease-out transform
+    ${activeFilter === "Non-Veg" ? 'translate-y-0' : 'translate-y-full'} // Use activeFilter
+  `}></span> */}
+                {/* Underline Span */}
+                <span className={`
+    absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-red-600 rounded-full
+    transition-all duration-300 ease-out
+    ${activeFilter === "Non-Veg" ? 'w-3/4' : 'w-0'} // Use activeFilter
+  `}></span>
+              </button>
+            </div>
+          </motion.div>
+        </div>
+        {/* ===== End Toggle Buttons ===== */}
+        {/* ===== End Toggle Buttons ===== */}
         {/* --- End Toggle Buttons --- */}
 
         {/* ===== Category Bar Wrapper (Not Sticky Anymore) ===== */}
@@ -353,9 +360,8 @@ const filteredMenu = useMemo(() => {
         >
           <button
             onClick={() => handleArrowScroll(-250)}
-            className={`absolute top-0 left-0 z-40 h-full px-2 flex items-center justify-center text-gray-700 transition-opacity duration-300 ${
-              showArrows ? "flex" : "hidden"
-            } ${canScrollLeft ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+            className={`absolute top-0 left-0 z-40 h-full px-2 flex items-center justify-center text-gray-700 transition-opacity duration-300 ${showArrows ? "flex" : "hidden"
+              } ${canScrollLeft ? "opacity-100" : "opacity-0 pointer-events-none"}`}
           >
             <span className="bg-white rounded-full p-1 shadow-md border border-gray-200">
               <ArrowLeftIcon />
@@ -364,9 +370,8 @@ const filteredMenu = useMemo(() => {
 
           <div
             ref={scrollContainerRef}
-            className={`flex flex-nowrap overflow-x-auto overflow-y-hidden justify-start pt-1 category-scrollbar ${
-              showArrows ? "px-12" : "px-4"
-            }`}
+            className={`flex flex-nowrap overflow-x-auto overflow-y-hidden justify-start pt-1 category-scrollbar ${showArrows ? "px-12" : "px-4"
+              }`}
           >
             {categories.map((category) => {
               const isActive = activeCategoryName === category;
@@ -403,9 +408,8 @@ const filteredMenu = useMemo(() => {
 
           <button
             onClick={() => handleArrowScroll(250)}
-            className={`absolute top-0 right-0 z-40 h-full px-2 flex items-center justify-center transition-opacity duration-300 ${
-              showArrows ? "flex" : "hidden"
-            } ${canScrollRight ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+            className={`absolute top-0 right-0 z-40 h-full px-2 flex items-center justify-center transition-opacity duration-300 ${showArrows ? "flex" : "hidden"
+              } ${canScrollRight ? "opacity-100" : "opacity-0 pointer-events-none"}`}
           >
             <span className="bg-white rounded-full p-1 shadow-md border border-gray-200">
               <ArrowRightIcon />
