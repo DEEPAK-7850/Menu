@@ -276,7 +276,7 @@ const filteredMenu = useMemo(() => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for a dish..."
-              className="flex-grow py-2 pl-6 pr-10 text-lg rounded-l-full focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+              className="flex-grow py-2 pl-4 pr-4 text-lg rounded-l-full focus:outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
               aria-label="Search"
             />
             {/* Clear button (visible when there's text) */}
@@ -324,7 +324,7 @@ const filteredMenu = useMemo(() => {
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container (Needs 'relative') --- */}
-            <div className="relative flex items-center gap-3 bg-gray-200 p-1 rounded-full shadow-inner w-fit mx-auto">
+            <div className="relative flex items-center gap-3 p-1 rounded-full shadow-inner w-fit mx-auto">
 
               {/* --- Sliding Background Element --- */}
               <div
