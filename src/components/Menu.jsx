@@ -276,7 +276,7 @@ const filteredMenu = useMemo(() => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for a dish..."
-              className="flex-grow py-2 pl-4 pr-4 text-lg rounded-l-full w-[60%] focus:outline-none bg-white  text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+              className="flex-grow py-2 pl-4 pr-4 text-lg rounded-l-full w-[60%] focus:outline-none bg-white  text-gray-900 placeholder-gray-500 dark:placeholder-gray-400"
               aria-label="Search"
             />
             {/* Clear button (visible when there's text) */}
@@ -328,7 +328,7 @@ const filteredMenu = useMemo(() => {
 
               {/* --- Sliding Background Element --- */}
               <div
-                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-22 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out transform
+                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-22 rounded-full bg-white shadow-md transition-transform duration-200 ease-in-out transform
   ${activeFilter === 'Veg' ? 'translate-x-[calc(100%+12px)]' : // Position for Veg (w-28 + gap-3 approx 12px)
                     activeFilter === 'Non-Veg' ? 'translate-x-[calc(200%+24px)]' : // Position for Non-Veg (2*w-28 + 2*gap)
                       'translate-x-0' // Position for All
