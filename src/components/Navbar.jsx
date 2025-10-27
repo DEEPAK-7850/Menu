@@ -96,7 +96,7 @@ function Navbar() {
         )}
       </header>
       <div className="h-[10rem] flex items-center justify-center w-full ">
-        <a href="/" className="transition-all text-gray-800 duration-400 text-[2rem] ease-in-out hover:opacity-80 z-10 flex items-center justify-center">
+        <a href="/" className="transition-all text-gray-800 duration-400 text-[3.5rem] ease-in-out hover:opacity-80 z-10 flex items-center justify-center">
           MENU
         </a>
       </div>
