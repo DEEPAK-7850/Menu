@@ -27,7 +27,7 @@ function Navbar() {
         {/* 1. Container: Justify center when top, between when scrolled */}
         <div
           className={`
-          container mx-auto px-4 md:px-[6rem] py-5 flex items-center gap-14 
+          container mx-auto px-4 md:px-[6rem] py-5 flex items-center gap-10 
           transition-all duration-400 ease-in-out font-bebas
           ${isTop ? "justify-center h-[10rem]" : "justify-center h-[6rem]"} 
         `}
@@ -95,7 +95,7 @@ function Navbar() {
           </nav>
         )}
       </header>
-      <div className="h-[10rem] flex items-center justify-center w-full ">
+      <div className="h-[5rem] flex items-center justify-center w-full ">
         <a href="/" className="transition-all text-gray-800 duration-400 text-[3.5rem] ease-in-out hover:opacity-80 z-10 flex items-center justify-center">
           MENU
         </a>
