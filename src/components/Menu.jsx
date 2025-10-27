@@ -328,7 +328,7 @@ const filteredMenu = useMemo(() => {
 
               {/* --- Sliding Background Element --- */}
               <div
-                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-22 rounded-full bg-white shadow-md transition-transform duration-200 ease-in-out transform
+                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-22 rounded-full bg-white shadow-md transition-transform duration-300 ease-out transform
   ${activeFilter === 'Veg' ? 'translate-x-[calc(100%+12px)]' : // Position for Veg (w-28 + gap-3 approx 12px)
                     activeFilter === 'Non-Veg' ? 'translate-x-[calc(200%+24px)]' : // Position for Non-Veg (2*w-28 + 2*gap)
                       'translate-x-0' // Position for All
