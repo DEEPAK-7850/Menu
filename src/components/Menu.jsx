@@ -324,11 +324,11 @@ const filteredMenu = useMemo(() => {
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container (Needs 'relative') --- */}
-            <div className="relative flex items-center gap-3 p-1 rounded-full shadow-inner w-fit mx-auto">
+            <div className="relative flex items-center gap-3 p-1 rounded-full shadow-inner w-full h-[5rem] mx-auto">
 
               {/* --- Sliding Background Element --- */}
               <div
-                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-20 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out transform
+                className={`absolute top-1 left-1 h-[calc(100%-8px)] w-28 rounded-full bg-white shadow-md transition-transform duration-300 ease-in-out transform
   ${activeFilter === 'Veg' ? 'translate-x-[calc(100%+12px)]' : // Position for Veg (w-28 + gap-3 approx 12px)
                     activeFilter === 'Non-Veg' ? 'translate-x-[calc(200%+24px)]' : // Position for Non-Veg (2*w-28 + 2*gap)
                       'translate-x-0' // Position for All
@@ -340,7 +340,7 @@ const filteredMenu = useMemo(() => {
                 // Added relative z-10
                 // Inactive state is bg-transparent
                 // Active state REMOVES bg-white, uses text color
-                className={`relative z-10 flex items-center justify-center gap-1 w-20 px-5 py-5 rounded-full text-lg font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "All"
+                className={`relative z-10 flex items-center justify-center gap-1 w-28 px-5 py-5 rounded-full text-lg font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "All"
                     ? "text-blue-600 border-blue-400 bg-blue-200" // Active: No bg needed (slider provides), border transparent
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
                   }`}
@@ -353,7 +353,7 @@ const filteredMenu = useMemo(() => {
               <button
                 // Added relative z-10
                 // Inactive state is bg-transparent
-                className={`relative z-10 flex items-center justify-center gap-1 w-20 px-5 py-6 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${ // Added justify-center
+                className={`relative z-10 flex items-center justify-center gap-1 w-28 px-5 py-6 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${ // Added justify-center
                   activeFilter === "Veg"
                     ? "text-green-600 border-green-400 bg-green-100 shadow-md" // Active: Green text, green border, shadow. NO bg-white.
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
@@ -367,7 +367,7 @@ const filteredMenu = useMemo(() => {
               <button
                 // Added relative z-10
                 // Inactive state is bg-transparent
-                className={`relative z-10 flex items-center justify-center gap-1 w-20 px-2 py-6 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "Non-Veg"
+                className={`relative z-10 flex items-center justify-center gap-1 w-28 px-2 py-6 rounded-full text-sm font-bold border-4 transition-colors duration-300 focus:outline-none ${activeFilter === "Non-Veg"
                     ? "text-red-600 border-red-400 bg-red-100" // Active: No bg needed, border transparent
                     : "bg-transparent text-gray-500 border-transparent hover:text-gray-700" // Inactive: Transparent bg/border
                   }`}
