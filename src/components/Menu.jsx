@@ -93,8 +93,8 @@ const iconMap = {
   "Starters(nonveg)": (isActive) => <CategoryIcon iconURL={StartersNonVegIconURL} altText="Starters(nonveg)" isActive={isActive} />,
   "Indian Main Course(Veg)": (isActive) => <CategoryIcon iconURL={IndianMainCourseVegIconURL} altText="Indian Main Course(Veg)" isActive={isActive} />,
   "Indian Main Course(nonveg)": (isActive) => <CategoryIcon iconURL={IndianMainCourseNonVegIconURL} altText="Indian Main Course(nonveg)" isActive={isActive} />,
-  "Chef’s special Main course(veg)": (isActive) => <CategoryIcon iconURL={ChefsSpecialMainCourseVegIconURL} altText="Chef’s special Main course(veg)" isActive={isActive} />,
-  "Chef’s special Main course(Nonveg)": (isActive) => <CategoryIcon iconURL={ChefsSpecialMainCourseNonVegIconURL} altText="Chef’s special Main course(Nonveg)" isActive={isActive} />,
+  "Chef’s special Main course(veg)": (isActive) => <CategoryIcon iconURL={ChefsSpecialMainCourseVegIconURL} altText="Chef’s special(veg)" isActive={isActive} />,
+  "Chef’s special Main course(Nonveg)": (isActive) => <CategoryIcon iconURL={ChefsSpecialMainCourseNonVegIconURL} altText="Chef’s special(Nonveg)" isActive={isActive} />,
   "Rajasthani Main Course": (isActive) => <CategoryIcon iconURL={RajasthaniMainCourseIconURL} altText="Rajasthani Main Course" isActive={isActive} />,
   Raita: (isActive) => <CategoryIcon iconURL={RaitaIconURL} altText="Raita" isActive={isActive} />,
   "Indian Breads": (isActive) => <CategoryIcon iconURL={IndianBreadsIconURL} altText="Indian Breads" isActive={isActive} />,
@@ -417,7 +417,7 @@ const filteredMenu = useMemo(() => {
                   duration={500}
                   offset={scrollOffset} // Use calculated offset
                   // Apply activeCategoryStyle conditionally based on state
-                  className={`${baseCategoryStyle} ${inactiveCategoryStyle} flex-shrink-0 ${isActive ? activeCategoryStyle : ''}`}
+                  className={`${baseCategoryStyle} ${inactiveCategoryStyle} w-24 flex-shrink-0 ${isActive ? activeCategoryStyle : ''}`}
                   // REMOVED activeClass prop
                   onSetActive={handleSetActive}
                 >

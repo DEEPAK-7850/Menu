@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import logo from '../assets/logo.png';
 import logo2 from '../assets/logo2.png'
-import menu from '../assets/menu.png';
 import { div } from "framer-motion/client";
 
 const menuItems = [];
@@ -29,7 +28,7 @@ function Navbar() {
           className={`
           container mx-auto px-4 md:px-[6rem] py-5 flex items-center gap-10 
           transition-all duration-400 ease-in-out font-bebas
-          ${isTop ? "justify-center h-[10rem]" : "justify-center h-[6rem]"} 
+          ${isTop ? "justify-center h-[8rem]" : "justify-center h-[6rem]"} 
         `}
         >
           {/* 2. Logo: Change size and margin based on isTop */}
@@ -95,10 +94,11 @@ function Navbar() {
           </nav>
         )}
       </header>
-      <div className="h-[5rem] flex items-center justify-center w-full ">
-        <a href="/" className="transition-all text-gray-800 duration-400 text-[3.5rem] ease-in-out hover:opacity-80 z-10 flex items-center justify-center">
+      <div className="h-[5rem] flex flex-col items-center justify-center w-full ">
+        <a href="/" className="transition-all text-gray-800 duration-400 text-[3rem] ease-in-out hover:opacity-80 z-10 flex items-center justify-center">
           MENU
         </a>
+        <div className="flex items-center justify-center text-[1rem] text-gray-800">EXPERIENCE CULINARY ELIGANCE</div>
       </div>
     </div>
   );
