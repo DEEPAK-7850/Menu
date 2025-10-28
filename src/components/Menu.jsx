@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from "react";
-import { menuData, categories } from "../data/menuData"; // Ensure menuData.js uses the final categories
+import { menuData, categories } from "../data/menuData";
 import { motion, AnimatePresence } from "framer-motion";
-import { VegIcon, NonVegIcon } from "../data/Icons"; // Ensure Icons.jsx exists
+import { VegIcon, NonVegIcon } from "../data/Icons";
 import { Link as ScrollLink, scroller } from "react-scroll";
 
 
@@ -298,22 +298,22 @@ const inactiveCategoryStyle = "bg-white text-gray-700 hover:bg-gray-100 border-2
 
       {/* ===== PARENT Sticky Container for Both Bars ===== */}
       {/* Added ref={stickyContainerRef} */}
-      <div ref={stickyContainerRef} className="sticky top-0 z-40 bg-white"> {/* Sticks below h-16 (64px) navbar */}
+      <div ref={stickyContainerRef} className="sticky top-0 z-40 bg-transparent"> {/* Sticks below h-16 (64px) navbar */}
 
         {/* --- Independent Toggle Buttons --- */}
         {/* ===== Sticky Independent Toggle Buttons ===== */}
         {/* ===== Sticky Independent Toggle Buttons ===== */}
-        <div ref={stickyContainerRef} className="z-40 bg-white">
+        <div ref={stickyContainerRef} className="z-40 transparent">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white pt-2 pb-2 flex justify-center items-center mx-auto w-fit px-3"
+            className="bg-transparent pt-2 pb-2 flex justify-center items-center mx-auto w-fit px-3"
           >
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container --- */}
             {/* --- Button Group Container (Needs 'relative') --- */}
-            <div className="relative flex items-center justify-center gap-3 p-1 shadow-inner rounded-full w-full mx-auto">
+            <div className="relative flex bg-white items-center justify-center gap-3 p-1 shadow-inner rounded-full w-full mx-auto">
 
               {/* --- Sliding Background Element --- */}
               <div
@@ -377,7 +377,7 @@ const inactiveCategoryStyle = "bg-white text-gray-700 hover:bg-gray-100 border-2
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
           // Removed sticky, top-*, mb-12. Added py-2
-          className="z-30 bg-white rounded-lg relative h-[8rem] py-2"
+          className="z-30 bg-transparent rounded-lg relative h-[8rem] py-2"
         >
           <button
             onClick={() => handleArrowScroll(-250)}
@@ -391,7 +391,7 @@ const inactiveCategoryStyle = "bg-white text-gray-700 hover:bg-gray-100 border-2
 
           <div
             ref={scrollContainerRef}
-            className={`flex flex-nowrap overflow-x-auto overflow-y-hidden justify-start pt-1 category-scrollbar ${showArrows ? "px-12" : "px-4"
+            className={`flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden justify-start pt-1 category-scrollbar ${showArrows ? "px-12" : "px-4"
               }`}
           >
             {categories.map((category) => {

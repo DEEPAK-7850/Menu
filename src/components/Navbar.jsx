@@ -27,7 +27,7 @@ function Navbar() {
         <div
           className={`
           container mx-auto px-4 md:px-[6rem] py-5 flex items-center gap-10 
-          transition-all duration-400 ease-in-out font-bebas
+          transition-all duration-400 ease-in-out font-bebas bg-white
           ${isTop ? "justify-center h-[10rem]" : "justify-center h-[6rem]"} 
         `}
         >
